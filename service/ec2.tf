@@ -5,7 +5,7 @@ resource "aws_key_pair" "key_pair" {
 
 resource "aws_instance" "sample" {
   ami                         = "ami-785c491f"
-  instance_type               = "t3.micro"
+  instance_type               = "t3.medium"
   monitoring                  = true
   subnet_id                   = data.terraform_remote_state.vpc.outputs.public_subnet_1_id
   key_name                    = aws_key_pair.key_pair.id
