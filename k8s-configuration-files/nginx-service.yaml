@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  # make connection between services and deployment or it's pods because service must know which pods belongs to.
+  # and that connection is made through the selector of the label
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      # allow requests from other services through port:80
+      port: 80
+      # service needs to know to which port it should forward the request, but also at which port is that port listening,
+      # so this one should match the containerPort
+      targetPort: 8080
