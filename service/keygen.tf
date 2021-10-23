@@ -15,10 +15,9 @@ variable "key_name" {
 }
 
 # キーファイル
-## 生成場所のPATH指定をしたければ、ここを変更するとよい。
 locals {
-  public_key_file  = "./.ssh/${var.key_name}.id_rsa.pub"
-  private_key_file = "./.ssh/${var.key_name}.id_rsa"
+  public_key_file  = "../../../.ssh/minicube/${var.key_name}.id_rsa.pub"
+  private_key_file = "../../../.ssh/minicube/${var.key_name}.id_rsa"
 }
 
 /**
@@ -39,9 +38,9 @@ resource "local_file" "private_key_pem" {
   content  = tls_private_key.keygen.private_key_pem
 
   # local_fileでファイルを作ると実行権限が付与されてしまうので、local-execでchmodしておく。
-  # provisioner "local-exec" {
-  #   command = "chmod 600 ${local.private_key_file}"
-  # }
+  provisioner "local-exec" {
+    command = "chmod 600 ${local.private_key_file}"
+  }
 }
 
 resource "local_file" "public_key_openssh" {
@@ -49,9 +48,9 @@ resource "local_file" "public_key_openssh" {
   content  = tls_private_key.keygen.public_key_openssh
 
   # local_fileでファイルを作ると実行権限が付与されてしまうので、local-execでchmodしておく。
-  # provisioner "local-exec" {
-  #   command = "chmod 600 ${local.public_key_file}"
-  # }
+  provisioner "local-exec" {
+    command = "chmod 600 ${local.public_key_file}"
+  }
 }
 
 /**
