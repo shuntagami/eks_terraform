@@ -4,7 +4,7 @@ resource "aws_key_pair" "key_pair" {
 }
 
 resource "aws_instance" "sample" {
-  ami                         = "ami-785c491f"
+  ami                         = "ami-0df99b3a8349462c6"
   instance_type               = "t3.medium"
   monitoring                  = true
   subnet_id                   = data.terraform_remote_state.vpc.outputs.public_subnet_1_id
@@ -21,4 +21,8 @@ resource "aws_instance" "sample" {
   tags = {
     Name = "Minicube"
   }
+}
+
+output "aws_instance" {
+  value = ["${aws_instance.sample.*.public_ip}"]
 }
